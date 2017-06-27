@@ -1,5 +1,5 @@
 {
-    "name": "itacs/laravel-scholarchip",
+    "name": "itacs/scholarchip",
     "description": "Laravel-ScholarChip is a simple package to help you process credit card payments through ScholarChip API in your Laravel application.",
     "authors": [
         {
