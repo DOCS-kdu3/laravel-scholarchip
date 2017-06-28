@@ -19,7 +19,7 @@ return [
     | ScholarChip User
     |--------------------------------------------------------------------------
     |
-    | User provided by Scholarchip.
+    | User provided by ScholarChip.
     |
     */
 
@@ -30,7 +30,7 @@ return [
     | ScholarChip Password
     |--------------------------------------------------------------------------
     |
-    | Password provided by Scholarchip.
+    | Password provided by ScholarChip.
     |
     */
 
@@ -41,7 +41,7 @@ return [
     | ScholarChip General Ledger Account Number
     |--------------------------------------------------------------------------
     |
-    | General ledger account number provided by Scholarchip. Also known as
+    | General ledger account number provided by ScholarChip. Also known as
     | sEAGL code.
     |
     */
