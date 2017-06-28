@@ -2,15 +2,13 @@
 
 namespace Tests;
 
+use Mockery;
+use SoapClient;
 use Itacs\ScholarChip\Exceptions\OrderDoesNotExistException;
 use Itacs\ScholarChip\Exceptions\OrderExistsException;
 use Itacs\ScholarChip\Exceptions\ScholarChipException;
 use Itacs\ScholarChip\ScholarChip;
-use Mockery;
 use PHPUnit\Framework\TestCase;
-use SoapClient;
-
-
 
 class ScholarChipTest extends TestCase
 {

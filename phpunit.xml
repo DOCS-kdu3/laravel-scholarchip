@@ -20,9 +20,7 @@
             <exclude>
                 <directory suffix=".php">./src/Config</directory>
                 <directory suffix=".php">./src/Core</directory>
-                <file>./src/ScholarChipController.php</file>
                 <file>./src/ScholarChipServiceProvider.php</file>
-                <file>./src/routes.php</file>
             </exclude>
         </whitelist>
     </filter>

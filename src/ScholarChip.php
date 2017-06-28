@@ -29,7 +29,7 @@ class ScholarChip
      * Token obtained from ScholarChip API. This value will
      * hold it so that an additional GetToken call to the
      * API can be avoided in subsequent API calls.
-     * @var [type]
+     * @var string
      */
     private $token;
 
