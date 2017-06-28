@@ -14,6 +14,18 @@
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory suffix=".php">./src/Config</directory>
+                <directory suffix=".php">./src/Core</directory>
+                <file>./src/ScholarChipController.php</file>
+                <file>./src/ScholarChipServiceProvider.php</file>
+                <file>./src/routes.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
     <logging>
         <log type="coverage-html" target="./report" charset="UTF-8"
             yui="true" highlight="true"

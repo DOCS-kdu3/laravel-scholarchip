@@ -30,9 +30,9 @@ class ScholarChipController extends Controller
         $orderId = $request->input('orderId');
         $amount = $request->input('amount');
         $description = $request->input('description');
-        if($request->has('test')) {
+        if(true || $request->has('test')) {
             $orderId = 123;
-            $amount = 25;
+            $amount = 26;
             $description = 'test';
         }
         // don't take it here because then you'd have to store it
@@ -40,14 +40,15 @@ class ScholarChipController extends Controller
         $redirectUrl = $request->input('redirectUrl');
 
 
-        if ($request->session()->has(self::ORDER_KEY)) {
+        if (false && $request->session()->has(self::ORDER_KEY)) {
             // fetch key and POST to user URL
             $sessionOrderId = $request->session()->get(self::ORDER_KEY);
             $request->session()->forget(self::ORDER_KEY);
             return 'Yo I came back from payment';
             
-        } else if (!empty($orderId) && !empty($amount) && !empty($description)) {
+        } else if (true || !empty($orderId) && !empty($amount) && !empty($description)) {
             // redirect to /payment
+            /*var_dump('order id: ' . $orderId);
             $seqOrderId = $this->scholarchip
                             ->createOrder($orderId, 
                                           config('app.url') . '/payment');
@@ -57,9 +58,12 @@ class ScholarChipController extends Controller
 
             $request->session()->put(self::ORDER_KEY, $orderId);
 
-            var_dump('Redirect to: ' . $redirectUrl);
+            var_dump('Redirect to: ' . $redirectUrl);*/
+            var_dump($this->scholarchip->getOrderStatus($orderId));
+            var_dump($this->scholarchip->getOrderSeqId('gabba-gabba'));
             /*header('Location: ' . $redirectUrl);
             die();*/
+            return 'Ok order created';
         }
 
         return 'TODO: redirect me to main page';

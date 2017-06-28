@@ -4,7 +4,7 @@ namespace Itacs\ScholarChip;
 
 use SoapClient;
 use Illuminate\Support\ServiceProvider;
-use Itacs\ScholarChip\Core\ScholarChipGateway;
+use Itacs\ScholarChip\ScholarChip;
 
 class ScholarChipServiceProvider extends ServiceProvider
 {
@@ -30,7 +30,7 @@ class ScholarChipServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('Itacs\ScholarChip\ScholarChip', function ($app) {
-            return new ScholarChipGateway(
+            return new ScholarChip(
                             new SoapClient(
                                     config('scholarchip.wsdl_url'),
                                     array('user_agent'=>'')
