@@ -38,7 +38,5 @@ class ScholarChipServiceProvider extends ServiceProvider
                             config('scholarchip')
                         );
         });
-
-        $this->app->make('Itacs\ScholarChip\ScholarChipController');
     }
 }
