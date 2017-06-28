@@ -19,7 +19,6 @@
             <directory suffix=".php">./src</directory>
             <exclude>
                 <directory suffix=".php">./src/Config</directory>
-                <directory suffix=".php">./src/Core</directory>
                 <file>./src/ScholarChipServiceProvider.php</file>
             </exclude>
         </whitelist>
