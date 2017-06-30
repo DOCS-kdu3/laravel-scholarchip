@@ -7,7 +7,6 @@
             "email": "pszczurko@docs.rutgers.edu"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": "^7.0",
         "ext-soap": "*"
