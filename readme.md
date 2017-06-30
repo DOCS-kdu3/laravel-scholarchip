@@ -179,3 +179,10 @@ class HelloController extends Controller
     }
 }
 ```
+
+## Package Development
+Setup a development enviornment for yourself as [described here](http://laraveldaily.com/how-to-create-a-laravel-5-package-in-10-easy-steps/).
+Except just clone the package into `packages\itacs\scholarchip'.
+
+Then to do a new version, preferm regular code review pull request and then create a 'new release' via Github and tag with the new version
+number. This step has to be done so that composer picks up a new version approprietly. 
