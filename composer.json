@@ -1,5 +1,5 @@
 {
-    "name": "itacs/laravel-scholarchip",
+    "name": "itacs/scholarchip",
     "description": "Laravel-ScholarChip is a simple package to help you process credit card payments through ScholarChip API in your Laravel application.",
     "authors": [
         {
@@ -7,6 +7,22 @@
             "email": "pszczurko@docs.rutgers.edu"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "php": "^7.0",
+        "ext-soap": "*"
+    },
+    "require-dev": {
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "6.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Itacs\\ScholarChip\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Itacs\\ScholarChip\\Tests\\": "tests/"
+        }
+    }
 }
