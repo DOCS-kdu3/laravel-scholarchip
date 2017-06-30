@@ -1,29 +1,29 @@
 <?php
 
-namespace Tests;
+namespace Itacs\ScholarChip\Tests;
 
-use Mockery;
-use SoapClient;
+use Itacs\ScholarChip\Core\ScholarChipCore;
 use Itacs\ScholarChip\Exceptions\OrderDoesNotExistException;
 use Itacs\ScholarChip\Exceptions\OrderExistsException;
 use Itacs\ScholarChip\Exceptions\ScholarChipException;
-use Itacs\ScholarChip\ScholarChip;
+use Mockery;
 use PHPUnit\Framework\TestCase;
+use SoapClient;
 
-class ScholarChipTest extends TestCase
+class ScholarChipCoreTest extends TestCase
 {
     public function setUp()
     {
         parent::setUp();
         $this->soapClientMock = Mockery::mock(SoapClient::class);
-        $this->config = array(
-                           'wsdl_url' => 'test-url',
-                           'user' => 'test-user',
-                           'password' => 'test-pass',
-                           'gl' => '01-34032',
-                        );
-        $this->scholarchip = new ScholarChip($this->soapClientMock, 
-                                             $this->config);
+
+        $this->user = 'test-user';
+        $this->password = 'test-pass';
+        $this->gl = '01-12345';
+        $this->scholarchip = new ScholarChipCore($this->soapClientMock, 
+                                                 $this->user, 
+                                                 $this->password, 
+                                                 $this->gl);
     }
 
     public function tearDown()
@@ -51,8 +51,8 @@ class ScholarChipTest extends TestCase
         $description = 'Hey, hi, hello!';
         $price = 12345.45;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->mockGetOrderSeqId($token, $orderId, $seqIdOrder);
@@ -63,10 +63,10 @@ class ScholarChipTest extends TestCase
                     'sLineItemID' => $lineItemId,
                     'sDescription' => $description,
                     'sPrice' => $price,
-                    'sEAGL' => $this->config['gl']])
+                    'sEAGL' => $this->gl])
             ->andReturn($this->soapClientMock);
         $this->soapClientMock->AddLineItemToOrderResult = 
-            ScholarChip::ITEM_ADD_SUCCESSFUL;
+            ScholarChipCore::ITEM_ADD_SUCCESSFUL;
 
         $result = $this->scholarchip->addItem($orderId, $price, 
                                               $description, $lineItemId);
@@ -81,8 +81,8 @@ class ScholarChipTest extends TestCase
         $description = 'Hey, hi, hello!';
         $price = 12345.45;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->mockGetOrderSeqId($token, $orderId, '');
@@ -101,8 +101,8 @@ class ScholarChipTest extends TestCase
         $description = 'Hey, hi, hello!';
         $price = 12345.45;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->mockGetOrderSeqId($token, $orderId, $seqIdOrder);
@@ -113,7 +113,7 @@ class ScholarChipTest extends TestCase
                     'sLineItemID' => $lineItemId,
                     'sDescription' => $description,
                     'sPrice' => $price,
-                    'sEAGL' => $this->config['gl']])
+                    'sEAGL' => $this->gl])
             ->andReturn($this->soapClientMock);
         $this->soapClientMock->AddLineItemToOrderResult = 
             'ERROR: What is life?';
@@ -130,8 +130,8 @@ class ScholarChipTest extends TestCase
         $orderUrl = 'http://hey.man';
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->mockGetOrderSeqId($token, $orderId, $seqIdOrder);
@@ -150,8 +150,8 @@ class ScholarChipTest extends TestCase
         $token = 123;
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->mockGetOrderSeqId($token, $orderId, '');
@@ -167,8 +167,8 @@ class ScholarChipTest extends TestCase
         $orderUrl = 'ERROR: I dont like you';
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->mockGetOrderSeqId($token, $orderId, $seqIdOrder);
@@ -189,8 +189,8 @@ class ScholarChipTest extends TestCase
         $token = 'ERROR: I dont like you';
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->expectException(ScholarChipException::class);
@@ -206,8 +206,8 @@ class ScholarChipTest extends TestCase
 
         // Execute getOrderUrl once succesfully so that the internal
         // token variable get's set
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
         $this->mockGetOrderSeqId($token, $orderId, $seqIdOrder);
         $this->soapClientMock->shouldReceive('GetOrderURL')
@@ -241,8 +241,8 @@ class ScholarChipTest extends TestCase
 
         // Execute getOrderUrl once succesfully so that the internal
         // token variable get's set
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
         $this->mockGetOrderSeqId($token, $orderId, $seqIdOrder);
         $this->soapClientMock->shouldReceive('GetOrderURL')
@@ -258,7 +258,7 @@ class ScholarChipTest extends TestCase
         $this->soapClientMock->shouldReceive('IsValidToken')
             ->with(['sToken' => $token])
             ->andReturn($this->soapClientMock);
-        $this->soapClientMock->IsValidTokenResult = ScholarChip::VALID_TOKEN;
+        $this->soapClientMock->IsValidTokenResult = ScholarChipCore::VALID_TOKEN;
         $result = $this->scholarchip->getOrderUrl($orderId);
 
         // Now the next call(s) to getOrderUrl should return proper token
@@ -273,8 +273,8 @@ class ScholarChipTest extends TestCase
         $orderStatus = 'OMG this order makes my body shake!';
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->mockGetOrderSeqId($token, $orderId, $seqIdOrder);
@@ -293,8 +293,8 @@ class ScholarChipTest extends TestCase
         $token = 123;
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->mockGetOrderSeqId($token, $orderId, '');
@@ -310,8 +310,8 @@ class ScholarChipTest extends TestCase
         $orderStatus = 'ERROR: Chicken';
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
 
         $this->mockGetOrderSeqId($token, $orderId, $seqIdOrder);
@@ -342,8 +342,8 @@ class ScholarChipTest extends TestCase
         $callbackUrl = 'call me at 1-800-000-0000';
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
         // mock call that checks if order exists
         $this->mockGetOrderSeqId($token, $orderId, '');
@@ -359,7 +359,7 @@ class ScholarChipTest extends TestCase
                     'sCallBackURL' => $callbackUrl])
             ->andReturn($this->soapClientMock);
         $this->soapClientMock->SetOrderCallbackURLResult = 
-            ScholarChip::CALLBACK_SET_SUCCESSFUL;
+            ScholarChipCore::CALLBACK_SET_SUCCESSFUL;
 
         $result = $this->scholarchip->createOrder($orderId, $callbackUrl);
         $this->assertEquals($seqIdOrder, $result);
@@ -372,8 +372,8 @@ class ScholarChipTest extends TestCase
         $callbackUrl = 'call me at 1-800-000-0000';
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
         $this->mockGetOrderSeqId($token, $orderId, $seqIdOrder);
 
@@ -388,8 +388,8 @@ class ScholarChipTest extends TestCase
         $callbackUrl = 'call me at 1-800-000-0000';
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
         // mock call that checks if order exists
         $this->mockGetOrderSeqId($token, $orderId, '');
@@ -410,8 +410,8 @@ class ScholarChipTest extends TestCase
         $callbackUrl = 'call me at 1-800-000-0000';
         $orderId = 34567;
 
-        $this->mockRefreshToken($this->config['user'],
-                                $this->config['password'],
+        $this->mockRefreshToken($this->user,
+                                $this->password,
                                 $token);
         // mock call that checks if order exists
         $this->mockGetOrderSeqId($token, $orderId, '');

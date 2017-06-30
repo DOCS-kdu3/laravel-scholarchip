@@ -15,5 +15,15 @@
     "require-dev": {
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "6.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Itacs\\ScholarChip\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Itacs\\ScholarChip\\Tests\\": "tests/"
+        }
     }
 }
